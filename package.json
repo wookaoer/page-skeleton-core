@@ -1,0 +1,14 @@
+{
+    "name": "page-skeleton-core",
+    "version": "1.0.0",
+    "dependencies": {
+        "css-tree": "^1.0.0-alpha.28",
+        "fs-extra": "^7.0.1",
+        "html-minifier": "^3.5.21",
+        "html2json": "^1.0.2",
+        "js-beautify": "^1.8.9",
+        "puppeteer": "^1.4.0",
+        "webpack": "^4.27.0",
+        "webpack-log": "^2.0.0"
+    }
+}
