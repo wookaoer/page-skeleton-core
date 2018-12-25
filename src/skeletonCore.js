@@ -15,8 +15,7 @@ class SkeletonCore {
         this.skeletonOptions = Object.assign({}, defaultOptions, skeletonOptions);
         this.browser = null;
         this.scriptContent = '';
-        // this.log = log;
-
+        this.log = log;
     }
 
     async initialize() {
@@ -71,7 +70,7 @@ class SkeletonCore {
         const {cookies} = this.skeletonOptions;
 
         /**************************page 事件****************************/
-
+        await page.setRequestInterception(true);
         page.on('request', (request) => {
             if (stylesheetAstObjects[request.url]) {
                 request.abort()
@@ -84,7 +83,7 @@ class SkeletonCore {
             const requestUrl = response.url();
             const ct = response.headers()['content-type'] || '';
             if (response.ok && !response.ok()) {
-                throw new Error(`${response.status} on ${requestUrl}`)
+                // throw new Error(`${response.status()} on ${requestUrl}`)
             }
 
             if (ct.indexOf('text/css') > -1 || /\.css$/i.test(requestUrl)) {
@@ -116,8 +115,6 @@ class SkeletonCore {
         }
 
         await this.makeSkeleton(page);
-
-        return Promise.resolve(1);
 
         const {styles, cleanedHtml} = await page.evaluate(() => Skeleton.getHtmlAndStyle());
 
@@ -238,7 +235,9 @@ class SkeletonCore {
             .replace('$$css$$', finalCss)
             .replace('$$html$$', cleanedHtml);
         const result = {
-            html: htmlMinify(shellHtml, false)
+            html: htmlMinify(shellHtml, false),
+            styles: finalCss,
+            cleanedHtml: cleanedHtml
         };
         await this.closePage(page);
         return Promise.resolve(result)
