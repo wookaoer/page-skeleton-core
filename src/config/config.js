@@ -55,7 +55,8 @@ const defaultOptions = {
     logLevel: 'info',
     quiet: false,
     noInfo: false,
-    logTime: true
+    logTime: true,
+    preview: false
 }
 
 const htmlBeautifyConfig = {

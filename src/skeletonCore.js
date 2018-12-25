@@ -67,7 +67,7 @@ class SkeletonCore {
         const stylesheetAstObjects = {};
         const stylesheetContents = {};
         const page = await this.newPage();
-        const {cookies} = this.skeletonOptions;
+        const {cookies, preview, waitForSelector} = this.skeletonOptions;
 
         /**************************page 事件****************************/
         await page.setRequestInterception(true);
@@ -109,12 +109,16 @@ class SkeletonCore {
         }
 
         const response = await page.goto(url, {waitUntil: 'networkidle2'});
-        await page.waitForSelector('.ad-data-report-carousel');
+
+        if (waitForSelector) await page.waitForSelector(waitForSelector);
+
         if (response && !response.ok()) {
             throw new Error(`${response.status} on ${url}`)
         }
 
         await this.makeSkeleton(page);
+
+        if (preview) return Promise.resolve(true);
 
         const {styles, cleanedHtml} = await page.evaluate(() => Skeleton.getHtmlAndStyle());
 
@@ -239,6 +243,7 @@ class SkeletonCore {
             styles: finalCss,
             cleanedHtml: cleanedHtml
         };
+
         await this.closePage(page);
         return Promise.resolve(result)
     }
