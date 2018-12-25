@@ -1,8 +1,7 @@
 const SkeletonBuilder = require('./src/skeletonCore');
-const fs = require('fs');
 
 // test code
-
+// const fs = require('fs');
 // let skeletonBuilder = new SkeletonBuilder({
 //     puppeteerOptions: {
 //     }
