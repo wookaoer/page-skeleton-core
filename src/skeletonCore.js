@@ -3,71 +3,67 @@
 const puppeteer = require('puppeteer');
 const devices = require('puppeteer/DeviceDescriptors');
 const {parse, toPlainObject, fromPlainObject, generate} = require('css-tree');
-const {sleep, genScriptContent, htmlMinify, collectImportantComments} = require('./util');
-const fs = require('fs');
-const {puppeteerConfig, defaultOptions} = require('./config/config');
+const {sleep, genScriptContent, htmlMinify, collectImportantComments, createLog} = require('./util');
+const {defaultOptions} = require('./config/config');
 
 class SkeletonCore {
 
-    constructor(options = {}, log) {
-        const {puppeteerOptions, skeletonOptions} = options;
-        this.puppeteerOptions = Object.assign({}, puppeteerConfig, puppeteerOptions);
-        this.skeletonOptions = Object.assign({}, defaultOptions, skeletonOptions);
+    constructor(options = {}) {
+        this.options = Object.assign({}, defaultOptions, options);
         this.browser = null;
         this.scriptContent = '';
-        this.log = log;
     }
 
     async initialize() {
-        const {puppeteerOptions} = this;
+        const {options} = this;
+        const openDevTools = !!options.preview;
+        const headless = !options.preview;
         try {
             this.scriptContent = await genScriptContent();
+
             this.browser = await puppeteer.launch({
                 //设置超时时间
-                timeout: puppeteerOptions.timeout,
+                timeout: options.timeout,
                 //如果是访问https页面 此属性会忽略https错误
-                ignoreHTTPSErrors: puppeteerOptions.ignoreHTTPSErrors,
+                ignoreHTTPSErrors: true,
                 // 打开开发者工具, 当此值为true时, headless总为false
-                devtools: puppeteerOptions.devtools,
+                devtools: openDevTools,
                 // 关闭headless模式, 不会打开浏览器
-                headless: puppeteerOptions.headless
+                headless: headless
             });
         } catch (err) {
             // TODO LOG
-            console.log('error----------------------------------');
-            console.log(err)
+            throw new Error(`puppeteer launch error：${err}`);
         }
     }
 
     async newPage() {
-        const {device, debug} = this.skeletonOptions;
+        const {device, debug} = this.options;
         const page = await this.browser.newPage();
         await page.emulate(devices[device]);
         if (debug) {
             page.on('console', (...args) => {
-                this.log.info(...args)
+                console.info(...args)
             })
         }
         return page
     }
 
     async makeSkeleton(page) {
-        const {defer} = this.skeletonOptions;
+        const {defer} = this.options;
         await page.addScriptTag({content: this.scriptContent});
         await sleep(defer);
         await page.evaluate((options) => {
             Skeleton.genSkeleton(options)
-        }, this.skeletonOptions)
+        }, this.options)
     }
 
     async build(url, options) {
         await this.initialize();
-        Object.assign(this.puppeteerOptions, options);
-        // TODO 各种钩子函数
         const stylesheetAstObjects = {};
         const stylesheetContents = {};
         const page = await this.newPage();
-        const {cookies, preview, waitForSelector} = this.skeletonOptions;
+        const {cookies, preview, waitForSelector} = this.options;
 
         /**************************page 事件****************************/
         await page.setRequestInterception(true);
@@ -83,7 +79,7 @@ class SkeletonCore {
             const requestUrl = response.url();
             const ct = response.headers()['content-type'] || '';
             if (response.ok && !response.ok()) {
-                // throw new Error(`${response.status()} on ${requestUrl}`)
+                throw new Error(`${response.status()} on ${requestUrl}`)
             }
 
             if (ct.indexOf('text/css') > -1 || /\.css$/i.test(requestUrl)) {
@@ -110,14 +106,16 @@ class SkeletonCore {
 
         const response = await page.goto(url, {waitUntil: 'networkidle2'});
 
-        if (waitForSelector) await page.waitForSelector(waitForSelector);
-
+        // 注意必须是200状态码
         if (response && !response.ok()) {
             throw new Error(`${response.status} on ${url}`)
         }
 
+        if (waitForSelector) await page.waitForSelector(waitForSelector);
+
         await this.makeSkeleton(page);
 
+        // 预览模式
         if (preview) return Promise.resolve(true);
 
         const {styles, cleanedHtml} = await page.evaluate(() => Skeleton.getHtmlAndStyle());
@@ -199,6 +197,9 @@ class SkeletonCore {
                 ))
                 .forEach((stylesheet) => {
                     if (!stylesheetAstObjects[stylesheet.href]) {
+                        // ignore error
+                        // console.error(`${stylesheet.href} not in stylesheetAstObjects`);
+                        // return;
                         throw new Error(`${stylesheet.href} not in stylesheetAstObjects`)
                     }
                     if (!Object.keys(stylesheetAstObjects[stylesheet.href]).length) {

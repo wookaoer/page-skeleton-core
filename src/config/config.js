@@ -56,7 +56,10 @@ const defaultOptions = {
     quiet: false,
     noInfo: false,
     logTime: true,
-    preview: false
+    preview: false,
+    waitForSelector: null,
+    // hooks
+    beforeLaunch: null
 }
 
 const htmlBeautifyConfig = {
