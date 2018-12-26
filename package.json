@@ -1,7 +1,12 @@
 {
     "name": "page-skeleton-core",
-    "version": "1.0.1-alpha",
+    "version": "1.0.2-alpha",
     "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wookaoer/page-skeleton-core"
+    },
+    "license": "MIT",
     "dependencies": {
         "css-tree": "^1.0.0-alpha.28",
         "fs-extra": "^7.0.1",
