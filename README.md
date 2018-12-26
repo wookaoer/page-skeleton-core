@@ -24,8 +24,34 @@ let skeletonBuilder = new SkeletonBuilder();
 
 ![示例][2]
 
-### 完善中
+### 
+
+# Documents
+
+## skeletonOptions
+
+参考page-skeleton-webpack-plugin的options说明，下面仅对新增字段进行说明。
+
+| Option  | Type    | Required | Default | Description                                          |
+| ------- | ------- | -------- | ------- | ---------------------------------------------------- |
+| preview | Boolean | No       | false   | 预览模式，将不会返回骨架结构结果，仅在浏览器预览效果 |
 
 
-  [1]: https://github.com/ElemeFE/page-skeleton-webpack-plugin
-  [2]: https://carlwuao.oss-cn-shanghai.aliyuncs.com/skeleton.gif
+
+## puppeteerOptions
+
+| Option            | Type    | Required | Default | Description                                   |
+| ----------------- | ------- | -------- | ------- | --------------------------------------------- |
+| timeout           | int     | No       | 15000   | 参考puppeteer launch参数中的timeout           |
+| ignoreHTTPSErrors | Boolean | No       | true    | 参考Puppeteer launch参数中的ignoreHTTPSErrors |
+| devtools          | Boolean | No       | true    | 参考Puppeteer launch参数中的devtools          |
+| headless          | Boolean | No       | False   | 参考Puppeteer launch参数中的headless          |
+|                   |         |          |         |                                               |
+
+ 
+
+### 
+
+
+[1]: https://github.com/ElemeFE/page-skeleton-webpack-plugin
+[2]: https://carlwuao.oss-cn-shanghai.aliyuncs.com/skeleton.gif
