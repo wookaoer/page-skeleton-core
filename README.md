@@ -14,17 +14,18 @@ npm install --save-dev page-skeleton-core
 ## Basic Use
 
 ```javascript
-const SkeletonBuilder = require('page-skeleton-core');
-let skeletonBuilder = new SkeletonBuilder();
+let skeletonBuilder = new SkeletonBuilder({
+    preview: true, // 预览骨架屏模式
+    defer: 5000
+}, console.log);
 
 (async () => {
-    const result = await skeletonBuilder.build('http://meishi.meituan.com/i/?ci=30&stid_b=1&cevent=imt%2Fhomepage%2Fcategory1%2F1');
+    const result = await skeletonBuilder.build('https://m.to8to.com/sz');
+    console.log(result);
 })();
 ```
 
 ![示例][2]
-
-### 
 
 # Documents
 
@@ -32,23 +33,12 @@ let skeletonBuilder = new SkeletonBuilder();
 
 参考page-skeleton-webpack-plugin的options说明，下面仅对新增字段进行说明。
 
-| Option  | Type    | Required | Default | Description                                          |
-| ------- | ------- | -------- | ------- | ---------------------------------------------------- |
-| preview | Boolean | No       | false   | 预览模式，将不会返回骨架结构结果，仅在浏览器预览效果 |
+| Option          | Type    | Required | Default | Description                                                  |
+| --------------- | ------- | -------- | ------- | ------------------------------------------------------------ |
+| preview         | Boolean | No       | false   | 预览模式，将不会返回骨架结构结果，仅在浏览器预览效果         |
+| waitForSelector | String  | No       | none    | 参考puppeteer waitForSelector参数。等待某个选择器的元素加载之后，适用于等待某个异步的结果后执行。相比defer参数更加精准一些。 |
 
 
-
-## puppeteerOptions
-
-| Option            | Type    | Required | Default | Description                                   |
-| ----------------- | ------- | -------- | ------- | --------------------------------------------- |
-| timeout           | int     | No       | 15000   | 参考puppeteer launch参数中的timeout           |
-| ignoreHTTPSErrors | Boolean | No       | true    | 参考Puppeteer launch参数中的ignoreHTTPSErrors |
-| devtools          | Boolean | No       | true    | 参考Puppeteer launch参数中的devtools          |
-| headless          | Boolean | No       | False   | 参考Puppeteer launch参数中的headless          |
-|                   |         |          |         |                                               |
-
- 
 
 ### 
 
