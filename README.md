@@ -8,7 +8,7 @@
 ## Installation
 
 ```bash
-npm install --save-dev page-skeleton-core
+npm install page-skeleton-core
 ```
 
 ## Basic Use
