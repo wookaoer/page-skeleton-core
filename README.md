@@ -24,7 +24,7 @@ let skeletonBuilder = new SkeletonBuilder();
 
 ![示例][2]
 
-### result description
+### 完善中
 
 
   [1]: https://github.com/ElemeFE/page-skeleton-webpack-plugin
