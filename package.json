@@ -1,6 +1,6 @@
 {
     "name": "page-skeleton-core",
-    "version": "1.0.0-alpha",
+    "version": "1.0.1-alpha",
     "main": "index.js",
     "dependencies": {
         "css-tree": "^1.0.0-alpha.28",
