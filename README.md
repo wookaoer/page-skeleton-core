@@ -29,7 +29,7 @@ let skeletonBuilder = new SkeletonBuilder({
 
 # Documents
 
-## options
+## construct options
 
 参考page-skeleton-webpack-plugin的options说明，https://github.com/ElemeFE/page-skeleton-webpack-plugin
 
@@ -42,7 +42,19 @@ let skeletonBuilder = new SkeletonBuilder({
 
 
 
-## return options
+## methods
+
+### build
+
+Options：
+
+| Options | Type   | Required | Default | Description               |
+| ------- | ------ | -------- | ------- | ------------------------- |
+| Url     | String | Yes      | none    | 要生成骨架屏的页面url地址 |
+
+
+
+return：
 
 预览模式下返回`true`。
 
