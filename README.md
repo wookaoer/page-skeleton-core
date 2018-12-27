@@ -44,14 +44,22 @@ let skeletonBuilder = new SkeletonBuilder({
 
 ## return options
 
+预览模式下返回`true`。
+
 ```javascript
 // 预览模式
 if (preview) return Promise.resolve(true);
 ```
 
-预览模式下返回`true`。
 
 
+非preview模式下返回一个对象，对象包含三个参数：
+
+`html`：`String` 完整的骨架屏html结构代码字符串。
+
+`styles`：`String` 骨架结构相关样式。
+
+`cleanedHtml`：`String` 骨架DOM结构。
 
 ```javascript
 let shellHtml = `<!DOCTYPE html>
@@ -76,14 +84,6 @@ const result = {
     cleanedHtml: cleanedHtml
 };
 ```
-
-非preview模式下返回一个对象，对象包含三个参数：
-
-`html`：`String` 完整的骨架屏html结构代码字符串。
-
-`styles`：`String` 骨架结构相关样式。
-
-`cleanedHtml`：`String` 骨架DOM结构。
 
 ### 
 
