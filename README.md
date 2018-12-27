@@ -14,6 +14,8 @@ npm install page-skeleton-core
 ## Basic Use
 
 ```javascript
+const SkeletonBuilder = require('./src/skeletonCore');
+
 let skeletonBuilder = new SkeletonBuilder({
     preview: true, // 预览骨架屏模式
     defer: 5000
