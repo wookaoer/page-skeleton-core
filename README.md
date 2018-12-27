@@ -48,8 +48,8 @@ let skeletonBuilder = new SkeletonBuilder({
 
 ### SkeletonBuilder.build(url)
 
-* `url`  <String> 要生成骨架屏的页面url地址
-* `returns`：<Mixed> Promise对象，包含生成的骨架结构代码
+* `url` ： <String> 要生成骨架屏的页面url地址
+* `returns` ：<Mixed> Promise对象，包含生成的骨架结构代码
 
 预览模式下返回`true`。
 
@@ -60,11 +60,11 @@ if (preview) return Promise.resolve(true);
 
 非preview模式下返回Object，Object包含三个参数：
 
-`html`：`String` 完整的骨架屏html结构代码字符串。
+`html`：<String>完整的骨架屏html结构代码字符串。
 
-`styles`：`String` 骨架结构相关样式。
+`styles`：<String> 骨架结构相关样式。
 
-`cleanedHtml`：`String` 骨架DOM结构。
+`cleanedHtml`：<String> 骨架DOM结构。
 
 ```javascript
 let shellHtml = `<!DOCTYPE html>
