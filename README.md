@@ -31,7 +31,9 @@ let skeletonBuilder = new SkeletonBuilder({
 
 ## options
 
-参考page-skeleton-webpack-plugin的options说明，下面仅对新增字段进行说明。
+参考page-skeleton-webpack-plugin的options说明，https://github.com/ElemeFE/page-skeleton-webpack-plugin
+
+下面仅对新增字段进行说明。
 
 | Option          | Type    | Required | Default | Description                                                  |
 | --------------- | ------- | -------- | ------- | ------------------------------------------------------------ |
@@ -39,6 +41,49 @@ let skeletonBuilder = new SkeletonBuilder({
 | waitForSelector | String  | No       | none    | 参考puppeteer waitForSelector参数。等待某个选择器的元素加载之后，适用于等待某个异步的结果后执行。相比defer参数更加精准一些。 |
 
 
+
+## return options
+
+```javascript
+// 预览模式
+if (preview) return Promise.resolve(true);
+```
+
+预览模式下返回`true`。
+
+
+
+```javascript
+let shellHtml = `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <title>Page Skeleton</title>
+    <style>
+    $$css$$
+    </style>
+    </head>
+    <body>
+    $$html$$
+    </body>
+    </html>`;
+shellHtml = shellHtml
+    .replace('$$css$$', finalCss)
+    .replace('$$html$$', cleanedHtml);
+const result = {
+    html: htmlMinify(shellHtml, false),
+    styles: finalCss,
+    cleanedHtml: cleanedHtml
+};
+```
+
+非preview模式下返回一个对象，对象包含三个参数：
+
+`html`：`String` 完整的骨架屏html结构代码字符串。
+
+`styles`：`String` 骨架结构相关样式。
+
+`cleanedHtml`：`String` 骨架DOM结构。
 
 ### 
 
