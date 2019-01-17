@@ -12,6 +12,7 @@ var Skeleton = (function (exports) {
   const AFTER_REMOVE_TAGS = ['title', 'meta', 'style'];
   const CLASS_NAME_PREFEX = 'sk-';
   const CONSOLE_SELECTOR = '.sk-console';
+  const IMAGE_FIXED = 'data-pswp-fixedsize';
   // 最小 1 * 1 像素的透明 gif 图片
   const SMALLEST_BASE64 = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
   const MOCK_TEXT_ID = 'sk-text-id';
@@ -35,8 +36,8 @@ var Skeleton = (function (exports) {
     }
   };
 
-  const addStyle = (selector, rule) => {
-    if (!styleCache.has(selector)) {
+  const addStyle = (selector, rule, replaced) => {
+    if (!styleCache.has(selector) || replaced) {
       styleCache.set(selector, rule);
     }
   };
@@ -215,8 +216,10 @@ var Skeleton = (function (exports) {
     });
   }
 
-  function imgHandler(ele, {color, shape, shapeOpposite}) {
+  function imgHandler(ele, {color, shape, shapeOpposite, fixedSize}) {
     const {width, height} = ele.getBoundingClientRect();
+    const isFixed = ele.hasAttribute(IMAGE_FIXED) || fixedSize;
+    console.log(fixedSize, isFixed)
     const attrs = {
       width,
       height,
@@ -226,13 +229,18 @@ var Skeleton = (function (exports) {
     const finalShape = shapeOpposite.indexOf(ele) > -1 ? getOppositeShape(shape) : shape;
 
     setAttributes(ele, attrs);
+    if (isFixed) {
+      ele.style.width = `${width}px`;
+      ele.style.height = `${height}px`;
+    }
 
     const className = CLASS_NAME_PREFEX + 'image';
     const shapeName = CLASS_NAME_PREFEX + finalShape;
     const rule = `{
     background: ${color} !important;
   }`;
-    addStyle(`.${className}`, rule);
+
+    addStyle(`.${className}`, rule, true);
     shapeStyle(finalShape);
 
     addClassName(ele, [className, shapeName]);

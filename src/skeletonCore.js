@@ -198,8 +198,8 @@ class SkeletonCore {
                 .forEach((stylesheet) => {
                     if (!stylesheetAstObjects[stylesheet.href]) {
                         // ignore error
-                        // console.error(`${stylesheet.href} not in stylesheetAstObjects`);
-                        // return;
+                        console.error(`${stylesheet.href} not in stylesheetAstObjects`);
+                        return;
                         throw new Error(`${stylesheet.href} not in stylesheetAstObjects`)
                     }
                     if (!Object.keys(stylesheetAstObjects[stylesheet.href]).length) {
@@ -223,10 +223,12 @@ class SkeletonCore {
         const finalCss = collectImportantComments(allCleanedCSS);
         // finalCss = minify(finalCss).css ? `html-minifier` use `clean-css` as css minifier
         // so don't need to use another mimifier.
+        const h5Meta = `<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>`;
         let shellHtml = `<!DOCTYPE html>
             <html lang="en">
             <head>
             <meta charset="UTF-8">
+            <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
             <title>Page Skeleton</title>
             <style>
               $$css$$
