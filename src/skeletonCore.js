@@ -106,6 +106,26 @@ class SkeletonCore {
 
         const response = await page.goto(url, {waitUntil: 'networkidle2'});
 
+        if (Object.keys(storagies).length) {
+            await page.evaluate((storagies) => {
+                for (const item in storagies) {
+                    if (storagies.hasOwnProperty(item)) {
+                        localStorage.setItem(item, storagies[item])
+                    }
+                }
+            }, storagies)
+        }
+
+        if (Object.keys(sessionStoragies).length) {
+            await page.evaluate((sessionStoragies) => {
+                for (const item in sessionStoragies) {
+                    if (sessionStoragies.hasOwnProperty(item)) {
+                        sessionStorage.setItem(item, sessionStoragies[item])
+                    }
+                }
+            }, sessionStoragies)
+        }
+
         // 注意必须是200状态码
         if (response && !response.ok()) {
             throw new Error(`${response.status} on ${url}`)
