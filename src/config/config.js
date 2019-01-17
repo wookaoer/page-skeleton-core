@@ -60,7 +60,10 @@ const defaultOptions = {
     preview: false,
     waitForSelector: null,
     // hooks
-    beforeLaunch: null
+    beforeLaunch: null,
+    storagies: {
+        test: '1234'
+    }
 }
 
 const htmlBeautifyConfig = {
