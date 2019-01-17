@@ -41,6 +41,7 @@ let skeletonBuilder = new SkeletonBuilder({
 | --------------- | ------- | -------- | ------- | ------------------------------------------------------------ |
 | preview         | Boolean | No       | false   | 预览模式，将不会返回骨架结构结果，仅在浏览器预览效果         |
 | waitForSelector | String  | No       | none    | 参考puppeteer waitForSelector参数。等待某个选择器的元素加载之后，适用于等待某个异步的结果后执行。相比defer参数更加精准一些。 |
+| image.fixedSize | Boolean | No       | false   | 针对所有图片可以设置fixedSize属性，这将给所有图片元素使用style属性创建宽高样式，以保证创建出来的图片元素的宽高和实际宽高一致 |
 
 
 
