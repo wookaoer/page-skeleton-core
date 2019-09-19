@@ -63,7 +63,7 @@ class SkeletonCore {
         const stylesheetAstObjects = {};
         const stylesheetContents = {};
         const page = await this.newPage();
-        const {cookies, preview, waitForSelector} = this.options;
+        const {cookies, preview, waitForSelector, storagies = {}, sessionStoragies = {}} = this.options;
 
         /**************************page 事件****************************/
         await page.setRequestInterception(true);
@@ -78,9 +78,9 @@ class SkeletonCore {
         page.on('response', (response) => {
             const requestUrl = response.url();
             const ct = response.headers()['content-type'] || '';
-            if (response.ok && !response.ok()) {
-                throw new Error(`${response.status()} on ${requestUrl}`)
-            }
+            // if (response.ok && !response.ok()) {
+            //     throw new Error(`${response.status()} on ${requestUrl}`)
+            // }
 
             if (ct.indexOf('text/css') > -1 || /\.css$/i.test(requestUrl)) {
                 response.text().then((text) => {
@@ -220,7 +220,7 @@ class SkeletonCore {
                         // ignore error
                         console.error(`${stylesheet.href} not in stylesheetAstObjects`);
                         return;
-                        throw new Error(`${stylesheet.href} not in stylesheetAstObjects`)
+                        // throw new Error(`${stylesheet.href} not in stylesheetAstObjects`)
                     }
                     if (!Object.keys(stylesheetAstObjects[stylesheet.href]).length) {
                         // If the 'stylesheetAstObjects[stylesheet.href]' thing is an
