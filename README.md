@@ -14,7 +14,7 @@ npm install page-skeleton-core
 ## Basic Use
 
 ```javascript
-const SkeletonBuilder = require('./src/skeletonCore');
+const {SkeletonBuilder} = require('page-skeleton-core');
 
 let skeletonBuilder = new SkeletonBuilder({
     preview: true, // 预览骨架屏模式
@@ -22,7 +22,7 @@ let skeletonBuilder = new SkeletonBuilder({
 }, console.log);
 
 (async () => {
-    const result = await skeletonBuilder.build('https://m.to8to.com/sz');
+    const result = await skeletonBuilder.build('https://m.baidu.com/');
     console.log(result);
 })();
 ```
